@@ -14,9 +14,11 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+
 // Add settings to Gravity Forms menu under "Forms"
 add_action('admin_menu', 'gf_email_blocker_menu', 20);
 function gf_email_blocker_menu() {
+
     // Add Email Blocker Settings page under "Forms"
     add_submenu_page(
         'gf_edit_forms', // Parent slug
@@ -36,7 +38,9 @@ function gf_email_blocker_menu() {
         'gf_email_blocker_failed_emails', // Menu slug
         'gf_email_blocker_failed_emails_page' // Callback function
     );
+
 }
+
 
 // Email Blocker Settings page callback
 function gf_email_blocker_settings_page() {
@@ -64,12 +68,14 @@ function gf_email_blocker_settings_page() {
     <?php
 }
 
+
 // Register plugin settings
 add_action('admin_init', 'gf_email_blocker_settings');
 function gf_email_blocker_settings() {
     register_setting('gf_email_blocker_options', 'gf_email_blocker_message');
     register_setting('gf_email_blocker_options', 'gf_email_blocker_domains'); // Register the new domain setting
 }
+
 
 // Add checkbox to each form's settings under "Form Settings"
 add_filter('gform_form_settings', 'gf_email_blocker_form_settings', 10, 2);
@@ -83,12 +89,14 @@ function gf_email_blocker_form_settings($settings, $form) {
     return $settings;
 }
 
+
 // Save form settings
 add_filter('gform_pre_form_settings_save', 'gf_email_blocker_save_form_settings');
 function gf_email_blocker_save_form_settings($form) {
     $form['gf_email_blocker_enabled'] = isset($_POST['gf_email_blocker_enabled']) ? 1 : 0;
     return $form;
 }
+
 
 // Validate email input and log failed attempts
 add_filter('gform_field_validation', 'gf_email_blocker_validate_email', 10, 4);
@@ -118,6 +126,7 @@ function gf_email_blocker_validate_email($result, $value, $form, $field) {
     }
     return $result;
 }
+
 
 // Display failed emails in the admin menu
 function gf_email_blocker_failed_emails_page() {
